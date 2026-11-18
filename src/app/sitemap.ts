@@ -43,6 +43,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: article.publishedAt || currentDate,
       changeFrequency: "monthly" as const,
       priority: 0.7,
+      images: article.coverImage && !article.coverImage.startsWith("data:")
+        ? [article.coverImage.startsWith("http://") || article.coverImage.startsWith("https://")
+            ? article.coverImage
+            : `${baseUrl}${article.coverImage.startsWith("/") ? "" : "/"}${article.coverImage}`]
+        : undefined,
     })),
   ];
 }

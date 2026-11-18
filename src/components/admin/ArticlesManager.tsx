@@ -5,6 +5,7 @@ import type { Article } from "@/data/initialContent";
 import { useContent } from "@/context/ContentContext";
 import { appendImportedArticles, previewArticleImport, type ArticleImportRow } from "@/lib/articleImport";
 import { FiCheckCircle, FiFileText, FiPlus, FiTrash2, FiUpload } from "react-icons/fi";
+import ArticleCoverUploader from "@/components/admin/ArticleCoverUploader";
 
 const blankArticle = (): Article => ({
   id: crypto.randomUUID(), title: "", slug: "", excerpt: "", category: "Inspirasi Interior",
@@ -155,7 +156,7 @@ export default function ArticlesManager() {
             <Field label="Penulis" value={selectedArticle.author} onChange={(author) => updateArticle({ author })} />
             <Field label="Tanggal Publikasi" type="date" value={selectedArticle.publishedAt} onChange={(publishedAt) => updateArticle({ publishedAt })} />
             <label className="text-xs font-semibold text-[#dbae6b]">Status Artikel<select value={selectedArticle.status} onChange={(event) => updateArticle({ status: event.target.value as Article["status"] })} className="mt-2 w-full rounded border border-white/10 bg-[#07111e] px-3 py-3 text-sm text-white"><option value="draft">Draft</option><option value="published">Terbitkan</option></select></label>
-            <Field label="URL Gambar Sampul" value={selectedArticle.coverImage} onChange={(coverImage) => updateArticle({ coverImage })} hint="Gunakan URL gambar yang dapat diakses publik." />
+            <ArticleCoverUploader value={selectedArticle.coverImage} onChange={(coverImage) => updateArticle({ coverImage })} />
             <Field label="Focus Keyword (opsional)" value={selectedArticle.focusKeyword || ""} onChange={(focusKeyword) => updateArticle({ focusKeyword })} />
             <Field label="Judul SEO (opsional)" value={selectedArticle.seoTitle} onChange={(seoTitle) => updateArticle({ seoTitle })} />
           </div>
