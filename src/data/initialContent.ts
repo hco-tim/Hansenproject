@@ -216,6 +216,7 @@ export interface Article {
   id: string;
   title: string;
   slug: string;
+  focusKeyword?: string;
   excerpt: string;
   category: string;
   coverImage: string;
