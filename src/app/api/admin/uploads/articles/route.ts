@@ -35,6 +35,11 @@ export async function POST(request: Request) {
     }
 
     const filename = `${Date.now()}-${randomUUID()}.webp`;
+    const targetBranch = process.env.VERCEL_GIT_COMMIT_REF || config.branch;
+    if (!/^[A-Za-z0-9._/-]+$/.test(targetBranch) || targetBranch.includes("..") || targetBranch.startsWith("/") || targetBranch.endsWith("/")) {
+      return fail("Branch deployment tidak valid untuk upload gambar.", 500);
+    }
+
     const repositoryPath = `public/uploads/articles/${filename}`;
     const encodedPath = repositoryPath.split("/").map(encodeURIComponent).join("/");
     const url = `https://api.github.com/repos/${encodeURIComponent(config.owner)}/${encodeURIComponent(config.repo)}/contents/${encodedPath}`;
@@ -50,7 +55,7 @@ export async function POST(request: Request) {
       body: JSON.stringify({
         message: "Upload compressed article cover image",
         content: bytes.toString("base64"),
-        branch: config.branch,
+        branch: targetBranch,
       }),
       cache: "no-store",
     });
