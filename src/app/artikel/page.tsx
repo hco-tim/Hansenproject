@@ -28,7 +28,7 @@ export default async function ArticlesPage() {
               {articles.map((article) => (
                 <article key={article.id} className="overflow-hidden border border-white/10 bg-white/[0.03]">
                   <Link href={`/artikel/${article.slug}`} className="group block">
-                    {article.coverImage ? <div className="relative aspect-[16/10] bg-slate-800"><Image src={article.coverImage} alt={article.title} fill className="object-cover transition-transform duration-500 group-hover:scale-105" unoptimized /></div> : <div className="aspect-[16/10] bg-gradient-to-br from-[#17395c] to-[#081526]" />}
+                    {article.coverImage ? <div className="relative aspect-[16/10] bg-slate-800"><Image src={article.coverImage} alt={article.title} fill sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" className="object-cover transition-transform duration-500 group-hover:scale-105" unoptimized={article.coverImage.startsWith("data:") || /^https?:\\/\\//.test(article.coverImage)} /></div> : <div className="aspect-[16/10] bg-gradient-to-br from-[#17395c] to-[#081526]" />}
                     <div className="p-6">
                       <p className="text-[11px] uppercase tracking-[0.2em] text-primary">{article.category || "Inspirasi"} · {new Date(`${article.publishedAt}T00:00:00`).toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" })}</p>
                       <h2 className="mt-3 font-serif text-2xl font-semibold leading-snug group-hover:text-primary">{article.title}</h2>
