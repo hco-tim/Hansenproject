@@ -23,7 +23,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ success: false, message: "Permintaan ditolak." }, { status: 403, headers: noStoreHeaders });
   }
   if (!isAdminAuthConfigured()) {
-    return NextResponse.json({ success: false, message: "Autentikasi admin belum dikonfigurasi di server." }, { status: 503, headers: noStoreHeaders });
+    return NextResponse.json({ success: false, message: "Autentikasi admin belum dikonfigurasi: ADMIN_PASSWORD belum diatur di server." }, { status: 503, headers: noStoreHeaders });
   }
 
   try {
