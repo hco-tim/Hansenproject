@@ -161,7 +161,7 @@ export default function ArticlesManager() {
             <Field label="Judul SEO (opsional)" value={selectedArticle.seoTitle} onChange={(seoTitle) => updateArticle({ seoTitle })} />
           </div>
           <TextField label="Ringkasan Artikel" value={selectedArticle.excerpt} onChange={(excerpt) => updateArticle({ excerpt })} rows={3} hint="Tampil di daftar artikel dan hasil berbagi." />
-          <TextField label="Isi Artikel" value={selectedArticle.body} onChange={(body) => updateArticle({ body })} rows={16} hint="Pisahkan paragraf dengan satu baris kosong. Awali subjudul dengan ## atau ###, dan item daftar dengan - ." />
+          <TextField label="Isi Artikel" value={selectedArticle.body} onChange={(body) => updateArticle({ body })} rows={16} hint="Gunakan ## untuk subjudul H2, ### untuk H3, paragraf dipisahkan baris kosong, dan - untuk daftar. Tag HTML seperti <h2>, <p>, dan <li> juga akan ditampilkan sebagai format artikel, bukan teks mentah." />
           <TextField label="Deskripsi SEO (opsional)" value={selectedArticle.seoDescription} onChange={(seoDescription) => updateArticle({ seoDescription })} rows={3} hint="Jika kosong, ringkasan artikel digunakan." />
           <p className="border-t border-white/10 pt-4 text-xs leading-5 text-gray-400">Perubahan tersimpan di editor ini. Klik <strong className="text-[#dbae6b]">Simpan Ke GitHub</strong> di bagian atas untuk menyimpan konten CMS dan menerbitkan pembaruan.</p>
         </section> : <div className="flex min-h-60 items-center justify-center rounded-xl border border-dashed border-white/15 p-8 text-center text-sm text-gray-400">Pilih artikel untuk mengedit, atau buat artikel baru.</div>}
