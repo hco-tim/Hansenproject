@@ -33,9 +33,11 @@ export function getGitHubContentConfig(): GitHubContentConfig | null {
     throw new Error("GITHUB_OWNER or GITHUB_REPO contains invalid characters.");
   }
 
-  const branch = process.env.GITHUB_BRANCH || "main";
+  // Keep CMS content and uploaded media on a dedicated branch, separate from application code.
+  // GITHUB_BRANCH remains the backward-compatible fallback for existing deployments.
+  const branch = process.env.GITHUB_CONTENT_BRANCH || process.env.GITHUB_BRANCH || "main";
   if (!/^[A-Za-z0-9._/-]+$/.test(branch) || branch.includes("..") || branch.startsWith("/") || branch.endsWith("/")) {
-    throw new Error("GITHUB_BRANCH contains invalid characters.");
+    throw new Error("GITHUB_CONTENT_BRANCH or GITHUB_BRANCH contains invalid characters.");
   }
 
   return {
