@@ -11,7 +11,7 @@ const textFields = ["title", "slug", "excerpt", "category", "coverImage", "cover
 
 function authorized(request: Request) {
   const expected = process.env.ARTICLE_INGEST_TOKEN;
-  const supplied = request.headers.get("authorization")?.replace(/^Bearer\\s+/i, "");
+  const supplied = request.headers.get("authorization")?.replace(/^Bearer\s+/i, "");
   if (!expected || !supplied) return false;
   const a = Buffer.from(expected);
   const b = Buffer.from(supplied);
@@ -23,7 +23,7 @@ function fail(message: string, status: number) {
 }
 
 function slugify(value: string) {
-  return value.toLowerCase().normalize("NFD").replace(/[\\u0300-\\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+  return value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 }
 
 export async function POST(request: Request) {
