@@ -6,6 +6,7 @@ import { useContent } from "@/context/ContentContext";
 import { appendImportedArticles, previewArticleImport, type ArticleImportRow } from "@/lib/articleImport";
 import { FiCheckCircle, FiFileText, FiPlus, FiTrash2, FiUpload } from "react-icons/fi";
 import ArticleCoverUploader from "@/components/admin/ArticleCoverUploader";
+import ArticleInlineImageUploader from "@/components/admin/ArticleInlineImageUploader";
 
 const blankArticle = (): Article => ({
   id: crypto.randomUUID(), title: "", slug: "", excerpt: "", category: "Inspirasi Interior",
@@ -161,7 +162,8 @@ export default function ArticlesManager() {
             <Field label="Judul SEO (opsional)" value={selectedArticle.seoTitle} onChange={(seoTitle) => updateArticle({ seoTitle })} />
           </div>
           <div className="rounded-lg border border-white/10 bg-[#07111e] p-4"><p className="text-xs font-semibold text-[#dbae6b]">Pemeriksaan SEO gambar</p><ul className="mt-2 space-y-1 text-xs text-gray-300"><li>{selectedArticle.coverImage ? (selectedArticle.coverImageAlt?.trim() ? "✓ Alt text gambar sampul sudah diisi." : "⚠ Gambar sampul belum memiliki alt text deskriptif.") : "• Belum ada gambar sampul."}</li><li>{(selectedArticle.body.match(/!\[[^\]]*\]\([^)]+\)/g) || []).filter((image) => !image.startsWith("![]")).length} gambar inline terdeteksi dalam format Markdown.</li><li>Setiap gambar inline harus ditulis dengan format ![deskripsi gambar](URL).</li></ul></div>\n          <TextField label="Ringkasan Artikel" value={selectedArticle.excerpt} onChange={(excerpt) => updateArticle({ excerpt })} rows={3} hint="Tampil di daftar artikel dan hasil berbagi." />
-          <TextField label="Isi Artikel" value={selectedArticle.body} onChange={(body) => updateArticle({ body })} rows={16} hint="Gunakan ## untuk subjudul H2, ### untuk H3, paragraf dipisahkan baris kosong, dan - untuk daftar. Tag HTML seperti <h2>, <p>, dan <li> juga akan ditampilkan sebagai format artikel, bukan teks mentah." />
+          <ArticleInlineImageUploader onInsert={(markdown) => updateArticle({ body: `${selectedArticle.body.trim()}\n\n${markdown}\n` })} />
+          <TextField label="Isi Artikel" value={selectedArticle.body} onChange={(body) => updateArticle({ body })} rows={16} hint="Gunakan ## untuk H2, ### untuk H3, paragraf dipisahkan baris kosong, - untuk daftar. Gambar dapat ditambahkan melalui uploader di atas atau dengan format ![alt text](URL). Setiap gambar wajib memiliki alt text deskriptif." />
           <TextField label="Deskripsi SEO (opsional)" value={selectedArticle.seoDescription} onChange={(seoDescription) => updateArticle({ seoDescription })} rows={3} hint="Jika kosong, ringkasan artikel digunakan." />
           <p className="border-t border-white/10 pt-4 text-xs leading-5 text-gray-400">Perubahan tersimpan di editor ini. Klik <strong className="text-[#dbae6b]">Simpan Ke GitHub</strong> di bagian atas untuk menyimpan konten CMS dan menerbitkan pembaruan.</p>
         </section> : <div className="flex min-h-60 items-center justify-center rounded-xl border border-dashed border-white/15 p-8 text-center text-sm text-gray-400">Pilih artikel untuk mengedit, atau buat artikel baru.</div>}
