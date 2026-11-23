@@ -3,6 +3,7 @@ import { Cormorant, Poppins } from "next/font/google";
 import "./globals.css";
 import { ContentProvider } from "@/context/ContentContext";
 import StructuredData from "@/components/StructuredData";
+import WhatsAppButton from "@/components/WhatsAppButton";
 
 const cormorant = Cormorant({
   variable: "--font-cormorant",
@@ -109,7 +110,10 @@ export default async function RootLayout({
         <StructuredData type="all" />
       </head>
       <body className="min-h-full flex flex-col font-sans">
-        <ContentProvider initialData={publicContent}>{children}</ContentProvider>
+        <ContentProvider initialData={publicContent}>
+          {children}
+          <WhatsAppButton />
+        </ContentProvider>
       </body>
     </html>
   );
