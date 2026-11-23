@@ -9,7 +9,7 @@ import ArticleCoverUploader from "@/components/admin/ArticleCoverUploader";
 
 const blankArticle = (): Article => ({
   id: crypto.randomUUID(), title: "", slug: "", excerpt: "", category: "Inspirasi Interior",
-  coverImage: "", author: "Hansen Projects", publishedAt: new Date().toISOString().slice(0, 10),
+  coverImage: "", coverImageAlt: "", author: "Hansen Projects", publishedAt: new Date().toISOString().slice(0, 10),
   status: "draft", body: "", seoTitle: "", seoDescription: "",
 });
 
@@ -156,11 +156,11 @@ export default function ArticlesManager() {
             <Field label="Penulis" value={selectedArticle.author} onChange={(author) => updateArticle({ author })} />
             <Field label="Tanggal Publikasi" type="date" value={selectedArticle.publishedAt} onChange={(publishedAt) => updateArticle({ publishedAt })} />
             <label className="text-xs font-semibold text-[#dbae6b]">Status Artikel<select value={selectedArticle.status} onChange={(event) => updateArticle({ status: event.target.value as Article["status"] })} className="mt-2 w-full rounded border border-white/10 bg-[#07111e] px-3 py-3 text-sm text-white"><option value="draft">Draft</option><option value="published">Terbitkan</option></select></label>
-            <ArticleCoverUploader value={selectedArticle.coverImage} onChange={(coverImage) => updateArticle({ coverImage })} />
+            <div className="space-y-3"><ArticleCoverUploader value={selectedArticle.coverImage} onChange={(coverImage) => updateArticle({ coverImage })} /><Field label="Alt Text Gambar Sampul" value={selectedArticle.coverImageAlt || ""} onChange={(coverImageAlt) => updateArticle({ coverImageAlt })} hint="Jelaskan objek dan konteks visual secara spesifik. Contoh: Kitchen set custom berbentuk L dengan finishing kayu oak dan kabinet putih." /></div>
             <Field label="Focus Keyword (opsional)" value={selectedArticle.focusKeyword || ""} onChange={(focusKeyword) => updateArticle({ focusKeyword })} />
             <Field label="Judul SEO (opsional)" value={selectedArticle.seoTitle} onChange={(seoTitle) => updateArticle({ seoTitle })} />
           </div>
-          <TextField label="Ringkasan Artikel" value={selectedArticle.excerpt} onChange={(excerpt) => updateArticle({ excerpt })} rows={3} hint="Tampil di daftar artikel dan hasil berbagi." />
+          <div className="rounded-lg border border-white/10 bg-[#07111e] p-4"><p className="text-xs font-semibold text-[#dbae6b]">Pemeriksaan SEO gambar</p><ul className="mt-2 space-y-1 text-xs text-gray-300"><li>{selectedArticle.coverImage ? (selectedArticle.coverImageAlt?.trim() ? "✓ Alt text gambar sampul sudah diisi." : "⚠ Gambar sampul belum memiliki alt text deskriptif.") : "• Belum ada gambar sampul."}</li><li>{(selectedArticle.body.match(/!\[[^\]]*\]\([^)]+\)/g) || []).filter((image) => !image.startsWith("![]")).length} gambar inline terdeteksi dalam format Markdown.</li><li>Setiap gambar inline harus ditulis dengan format ![deskripsi gambar](URL).</li></ul></div>\n          <TextField label="Ringkasan Artikel" value={selectedArticle.excerpt} onChange={(excerpt) => updateArticle({ excerpt })} rows={3} hint="Tampil di daftar artikel dan hasil berbagi." />
           <TextField label="Isi Artikel" value={selectedArticle.body} onChange={(body) => updateArticle({ body })} rows={16} hint="Gunakan ## untuk subjudul H2, ### untuk H3, paragraf dipisahkan baris kosong, dan - untuk daftar. Tag HTML seperti <h2>, <p>, dan <li> juga akan ditampilkan sebagai format artikel, bukan teks mentah." />
           <TextField label="Deskripsi SEO (opsional)" value={selectedArticle.seoDescription} onChange={(seoDescription) => updateArticle({ seoDescription })} rows={3} hint="Jika kosong, ringkasan artikel digunakan." />
           <p className="border-t border-white/10 pt-4 text-xs leading-5 text-gray-400">Perubahan tersimpan di editor ini. Klik <strong className="text-[#dbae6b]">Simpan Ke GitHub</strong> di bagian atas untuk menyimpan konten CMS dan menerbitkan pembaruan.</p>
@@ -184,7 +184,7 @@ export default function ArticlesManager() {
                 <button type="button" onClick={() => fileInputRef.current?.click()} disabled={isImporting || saving} className="rounded-lg border border-[#dbae6b]/40 px-4 py-2 text-xs font-semibold text-[#dbae6b] hover:bg-[#dbae6b]/10 disabled:opacity-50">Pilih File</button>
                 <span className="text-xs text-gray-300">{importFile?.name || "Belum ada file dipilih"}</span>
               </div>
-              <p className="mt-3 text-xs leading-5 text-gray-400">Format: file .json berupa array artikel atau objek dengan properti <code className="text-[#dbae6b]">articles</code>. Setiap artikel menggunakan field CMS seperti title, slug, excerpt, category, coverImage, author, publishedAt, body, seoTitle, seoDescription, dan focusKeyword. Contoh lengkap tersedia di <code className="text-[#dbae6b]">examples/article-import-example.json</code>.</p>
+              <p className="mt-3 text-xs leading-5 text-gray-400">Format: file .json berupa array artikel atau objek dengan properti <code className="text-[#dbae6b]">articles</code>. Setiap artikel menggunakan field CMS seperti title, slug, excerpt, category, coverImage, coverImageAlt, author, publishedAt, body, seoTitle, seoDescription, dan focusKeyword. Contoh lengkap tersedia di <code className="text-[#dbae6b]">examples/article-import-example.json</code>.</p>
             </div>
 
             {importError && <p role="alert" className="mt-4 rounded-lg border border-red-400/30 bg-red-950/30 p-3 text-sm text-red-300">{importError}</p>}
