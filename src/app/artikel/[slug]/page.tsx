@@ -42,7 +42,7 @@ export default async function ArticlePage({ params }: Props) {
           <p className="mt-8 text-xs uppercase tracking-[0.2em] text-primary">{article.category || "Inspirasi"} · {publishedDate} · {article.author || "Hansen Projects"}</p>
           <h1 className="mt-4 font-serif text-4xl font-semibold leading-tight md:text-6xl">{article.title}</h1>
           <p className="mt-5 text-lg leading-8 text-slate-300">{article.excerpt}</p>
-          {article.coverImage && <div className="relative mt-10 aspect-[16/9] overflow-hidden bg-slate-800"><Image src={article.coverImage} alt={article.title} fill priority sizes="(max-width: 896px) 100vw, 896px" className="object-cover" unoptimized={article.coverImage.startsWith("data:") || article.coverImage.startsWith("http://") || article.coverImage.startsWith("https://")} /></div>}
+          {article.coverImage && <div className="relative mt-10 aspect-[16/9] overflow-hidden bg-slate-800"><Image src={article.coverImage} alt={article.coverImageAlt?.trim() || article.title} fill priority sizes="(max-width: 896px) 100vw, 896px" className="object-cover" unoptimized={article.coverImage.startsWith("data:") || article.coverImage.startsWith("http://") || article.coverImage.startsWith("https://")} /></div>}
           <div className="mx-auto mt-10 max-w-3xl"><ArticleBody body={article.body} /></div>
         </div>
       </article>

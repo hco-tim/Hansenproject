@@ -220,6 +220,7 @@ export interface Article {
   excerpt: string;
   category: string;
   coverImage: string;
+  coverImageAlt?: string;
   author: string;
   publishedAt: string;
   status: "draft" | "published";
