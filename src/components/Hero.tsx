@@ -1,6 +1,7 @@
 "use client";
 
 import { useContent } from "@/context/ContentContext";
+import Image from "next/image";
 import {
   FiUsers,
   FiShield,
@@ -11,15 +12,22 @@ export default function Hero() {
   const { content } = useContent();
   const hero = content.home.hero;
 
-  const bgStyle = hero.bgImage ? { backgroundImage: `url('${hero.bgImage}')` } : {};
-
   return (
     <div className="relative h-screen flex flex-col overflow-hidden bg-background">
       {/* Background Image with Overlay */}
-      <div
-        className="absolute inset-0 z-0 bg-cover bg-center transition-all duration-500"
-        style={bgStyle}
-      >
+      <div className="absolute inset-0 z-0 overflow-hidden">
+        {hero.bgImage && (
+          <Image
+            src={hero.bgImage}
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            quality={75}
+            unoptimized={hero.bgImage.startsWith("data:") || hero.bgImage.startsWith("http://") || hero.bgImage.startsWith("https://")}
+            className="object-cover object-center"
+          />
+        )}
         <div className="absolute inset-0 bg-gradient-to-r from-background from-30% via-background/40 via-65% to-transparent to-90%" />
       </div>
 

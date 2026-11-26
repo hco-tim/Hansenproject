@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { useContent } from "@/context/ContentContext";
 import { FiArrowRight } from "react-icons/fi";
 
@@ -62,10 +63,14 @@ export default function Projects() {
               href="/portofolio"
               className="group relative h-[320px] lg:h-[400px] w-full overflow-hidden shadow-sm cursor-pointer block rounded-sm"
             >
-              <img
+              <Image
                 src={project.image || "/projects/residential.jpg"}
                 alt={project.title}
-                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                quality={75}
+                unoptimized={project.image?.startsWith("data:") || project.image?.startsWith("http://") || project.image?.startsWith("https://")}
+                className="object-cover group-hover:scale-110 transition-transform duration-700"
               />
               
               {/* Gradient Overlay bottom to top */}

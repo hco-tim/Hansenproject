@@ -1,6 +1,7 @@
 "use client";
 
 import { useContent } from "@/context/ContentContext";
+import Image from "next/image";
 import { FiArrowRight } from "react-icons/fi";
 
 export default function ServicesDetail() {
@@ -42,10 +43,14 @@ export default function ServicesDetail() {
             <div key={idx} className="flex flex-col group">
               {/* Card Image */}
               <div className="relative h-60 md:h-64 w-full overflow-hidden rounded-sm mb-6 bg-gray-100">
-                <img
+                <Image
                   src={service.image || "/services/furniture.jpg"}
                   alt={service.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  quality={75}
+                  unoptimized={service.image?.startsWith("data:") || service.image?.startsWith("http://") || service.image?.startsWith("https://")}
+                  className="object-cover group-hover:scale-105 transition-transform duration-500"
                 />
               </div>
 

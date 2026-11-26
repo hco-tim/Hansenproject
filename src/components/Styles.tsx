@@ -1,6 +1,7 @@
 "use client";
 
 import { useContent } from "@/context/ContentContext";
+import Image from "next/image";
 
 export default function Styles() {
   const { content } = useContent();
@@ -30,10 +31,14 @@ export default function Styles() {
               className="bg-white border border-gray-100 shadow-sm hover:shadow-md transition-shadow group flex flex-col rounded-sm overflow-hidden"
             >
               <div className="relative h-56 w-full overflow-hidden bg-gray-100">
-                <img
+                <Image
                   src={item.image || "/styles/minimalist.jpg"}
                   alt={item.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                  quality={75}
+                  unoptimized={item.image?.startsWith("data:") || item.image?.startsWith("http://") || item.image?.startsWith("https://")}
+                  className="object-cover group-hover:scale-105 transition-transform duration-500"
                 />
               </div>
               <div className="p-5 flex flex-col flex-1">

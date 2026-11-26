@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { getSiteContent } from "@/lib/getContent";
+import { getSiteArticles } from "@/lib/getContent";
 
 export const metadata: Metadata = {
   title: "Artikel & Inspirasi Interior",
@@ -12,8 +12,9 @@ export const metadata: Metadata = {
 };
 
 export default async function ArticlesPage() {
-  const content = await getSiteContent();
-  const articles = (content.articles || []).filter((article) => article.status === "published").sort((a, b) => b.publishedAt.localeCompare(a.publishedAt));
+  const articles = (await getSiteArticles())
+    .filter((article) => article.status === "published")
+    .sort((a, b) => b.publishedAt.localeCompare(a.publishedAt));
 
   return (
     <main className="min-h-screen bg-background text-foreground">
@@ -28,7 +29,7 @@ export default async function ArticlesPage() {
               {articles.map((article) => (
                 <article key={article.id} className="overflow-hidden border border-white/10 bg-white/[0.03]">
                   <Link href={`/artikel/${article.slug}`} className="group block">
-                    {article.coverImage ? <div className="relative aspect-[16/10] bg-slate-800"><Image src={article.coverImage} alt={article.coverImageAlt?.trim() || article.title} fill sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" className="object-cover transition-transform duration-500 group-hover:scale-105" unoptimized={article.coverImage.startsWith("data:") || article.coverImage.startsWith("http://") || article.coverImage.startsWith("https://")} /></div> : <div className="aspect-[16/10] bg-gradient-to-br from-[#17395c] to-[#081526]" />}
+                    {article.coverImage ? <div className="relative aspect-[16/10] bg-slate-800"><Image src={article.coverImage} alt={article.coverImageAlt?.trim() || article.title} fill sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" className="object-cover transition-transform duration-500 group-hover:scale-105" unoptimized={article.coverImage.startsWith("http://") || article.coverImage.startsWith("https://")} /></div> : <div className="aspect-[16/10] bg-gradient-to-br from-[#17395c] to-[#081526]" />}
                     <div className="p-6">
                       <p className="text-[11px] uppercase tracking-[0.2em] text-primary">{article.category || "Inspirasi"} · {new Date(`${article.publishedAt}T00:00:00`).toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" })}</p>
                       <h2 className="mt-3 font-serif text-2xl font-semibold leading-snug group-hover:text-primary">{article.title}</h2>
