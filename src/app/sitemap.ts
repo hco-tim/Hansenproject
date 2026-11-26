@@ -1,16 +1,17 @@
 import type { MetadataRoute } from "next";
 import { getSiteContent } from "@/lib/getContent";
 
+// The sitemap changes only when CMS content changes; avoid minute-by-minute ISR.
+export const revalidate = 3600;
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.hansenprojects.id";
-  const currentDate = new Date().toISOString();
   const content = await getSiteContent();
   const articles = (content.articles || []).filter((article) => article.status === "published");
 
   return [
     {
       url: `${baseUrl}`,
-      lastModified: currentDate,
       changeFrequency: "weekly",
       priority: 1.0,
     },
