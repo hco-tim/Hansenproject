@@ -1,20 +1,28 @@
 "use client";
 
 import { useContent } from "@/context/ContentContext";
+import Image from "next/image";
 
 export default function ServicesIntro() {
   const { content } = useContent();
   const intro = content.layananPage.intro;
 
-  const bgStyle = intro.bgImage ? { backgroundImage: `url('${intro.bgImage}')` } : {};
-
   return (
     <div className="relative min-h-[80vh] flex flex-col overflow-hidden bg-background text-foreground pt-24 pb-16 lg:py-0">
       {/* Background Image with Overlay */}
-      <div
-        className="absolute inset-0 z-0 bg-cover bg-center"
-        style={bgStyle}
-      >
+      <div className="absolute inset-0 z-0 overflow-hidden">
+        {intro.bgImage && (
+          <Image
+            src={intro.bgImage}
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            quality={75}
+            unoptimized={intro.bgImage.startsWith("data:") || intro.bgImage.startsWith("http://") || intro.bgImage.startsWith("https://")}
+            className="object-cover object-center"
+          />
+        )}
         <div className="absolute inset-0 bg-gradient-to-r from-background from-30% via-background/50 via-65% to-transparent to-90%" />
       </div>
 
