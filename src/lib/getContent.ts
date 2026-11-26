@@ -82,7 +82,7 @@ export async function getSiteContent(): Promise<SiteContent> {
           Authorization: `Bearer ${config.pat}`,
           Accept: "application/vnd.github.raw+json",
         },
-        next: { revalidate: 3600, tags: ["site-content"] },
+        next: { revalidate: false, tags: ["site-content"] },
       });
 
       if (res.ok) {
