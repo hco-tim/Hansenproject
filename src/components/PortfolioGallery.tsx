@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { useContent } from "@/context/ContentContext";
 import { FiArrowRight, FiMapPin } from "react-icons/fi";
 
@@ -60,10 +61,14 @@ export default function PortfolioGallery() {
               key={item.id || idx}
               className="group relative h-[360px] lg:h-[420px] w-full overflow-hidden rounded-sm shadow-sm cursor-pointer flex flex-col justify-end"
             >
-              <img
+              <Image
                 src={item.image || "/projects/residential.jpg"}
                 alt={item.title}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 absolute inset-0"
+                fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                quality={75}
+                unoptimized={item.image?.startsWith("data:") || item.image?.startsWith("http://") || item.image?.startsWith("https://")}
+                className="object-cover group-hover:scale-105 transition-transform duration-700"
               />
 
               {/* Gradient Overlay */}
