@@ -99,9 +99,12 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const content = await getSiteContent();
+  // Article bodies are fetched by the article routes themselves. Keeping the
+  // full article collection out of the root client provider avoids serializing
+  // every article body into the RSC payload for every page on the site.
   const publicContent = {
     ...content,
-    articles: (content.articles || []).filter((article) => article.status === "published"),
+    articles: [],
   };
 
   return (
