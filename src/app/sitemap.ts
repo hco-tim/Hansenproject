@@ -17,25 +17,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
     {
       url: `${baseUrl}/layanan`,
-      lastModified: currentDate,
       changeFrequency: "weekly",
       priority: 0.9,
     },
     {
       url: `${baseUrl}/portofolio`,
-      lastModified: currentDate,
       changeFrequency: "weekly",
       priority: 0.9,
     },
     {
       url: `${baseUrl}/tentang-kami`,
-      lastModified: currentDate,
       changeFrequency: "monthly",
       priority: 0.8,
     },
     {
       url: `${baseUrl}/artikel`,
-      lastModified: currentDate,
       changeFrequency: "weekly",
       priority: 0.8,
     },
