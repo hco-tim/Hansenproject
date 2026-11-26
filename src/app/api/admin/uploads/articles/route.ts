@@ -25,6 +25,9 @@ export async function POST(request: Request) {
 
     const form = await request.formData();
     const file = form.get("file");
+    const requestedFolder = form.get("folder");
+    const folder = requestedFolder === null ? "articles" : requestedFolder;
+    if (folder !== "articles" && folder !== "site") return fail("Folder upload tidak diizinkan.", 400);
     if (!(file instanceof File)) return fail("File gambar tidak ditemukan.", 400);
     if (file.type !== "image/webp") return fail("File harus berupa WebP.", 415);
     if (file.size < 16 || file.size > MAX_FILE_BYTES) return fail("Ukuran gambar harus antara 16 byte dan 400 KB.", 413);
@@ -35,7 +38,7 @@ export async function POST(request: Request) {
     }
 
     const filename = `${Date.now()}-${randomUUID()}.webp`;
-    const repositoryPath = `public/uploads/articles/${filename}`;
+    const repositoryPath = `public/uploads/${folder}/${filename}`;
     const encodedPath = repositoryPath.split("/").map(encodeURIComponent).join("/");
     const url = `https://api.github.com/repos/${encodeURIComponent(config.owner)}/${encodeURIComponent(config.repo)}/contents/${encodedPath}`;
 
@@ -48,7 +51,7 @@ export async function POST(request: Request) {
         "X-GitHub-Api-Version": "2022-11-28",
       },
       body: JSON.stringify({
-        message: "Upload compressed article cover image",
+        message: `Upload compressed ${folder} WebP image`,
         content: bytes.toString("base64"),
         branch: config.branch,
       }),
@@ -63,7 +66,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({
       success: true,
-      url: `/uploads/articles/${filename}`,
+      url: `/uploads/${folder}/${filename}`,
       path: repositoryPath,
       size: bytes.length,
       format: "webp",
