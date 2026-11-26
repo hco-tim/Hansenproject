@@ -1,8 +1,8 @@
 import type { MetadataRoute } from "next";
 import { getSiteContent } from "@/lib/getContent";
 
-// The sitemap changes only when CMS content changes; avoid minute-by-minute ISR.
-export const revalidate = 3600;
+// The sitemap changes only when CMS content changes; it is invalidated on CMS save.
+export const revalidate = false;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.hansenprojects.id";
