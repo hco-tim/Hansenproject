@@ -101,7 +101,11 @@ export default async function RootLayout({
   const content = await getSiteContent();
   const publicContent = {
     ...content,
-    articles: (content.articles || []).filter((article) => article.status === "published"),
+    // Public pages need article metadata only. Full article bodies are fetched
+    // by the article route and loaded separately by the authenticated CMS.
+    articles: (content.articles || [])
+      .filter((article) => article.status === "published")
+      .map((article) => ({ ...article, body: "" })),
   };
 
   return (
