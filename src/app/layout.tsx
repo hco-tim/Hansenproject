@@ -99,14 +99,6 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const content = await getSiteContent();
-  const publicContent = {
-    ...content,
-    // Public pages need article metadata only. Full article bodies are fetched
-    // by the article route and loaded separately by the authenticated CMS.
-    articles: (content.articles || [])
-      .filter((article) => article.status === "published")
-      .map((article) => ({ ...article, body: "" })),
-  };
 
   return (
     <html lang="id" className={`${cormorant.variable} ${poppins.variable} h-full antialiased`}>
@@ -114,7 +106,7 @@ export default async function RootLayout({
         <StructuredData type="all" />
       </head>
       <body className="min-h-full flex flex-col font-sans">
-        <ContentProvider initialData={publicContent}>
+        <ContentProvider initialData={content}>
           {children}
           <WhatsAppButton />
         </ContentProvider>
