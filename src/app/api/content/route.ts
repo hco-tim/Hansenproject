@@ -137,7 +137,6 @@ export async function POST(request: Request) {
 function revalidateAfterSave() {
   try {
     revalidateTag("site-content", { expire: 0 });
-    revalidatePath("/", "layout");
     revalidatePath("/artikel");
     revalidatePath("/sitemap.xml");
   } catch (error) {
