@@ -162,7 +162,13 @@ export default function AdminPage() {
 
   const handleLogout = async () => {
     await fetch("/api/admin/auth", { method: "DELETE", credentials: "same-origin" }).catch(() => undefined);
-    updateContent({ ...content, articles: (content.articles || []).filter((article) => article.status === "published") });
+    // Clear full article bodies from the shared client state after logout.
+    updateContent({
+      ...content,
+      articles: (content.articles || [])
+        .filter((article) => article.status === "published")
+        .map((article) => ({ ...article, body: "" })),
+    });
     setIsAuthenticated(false);
   };
 
