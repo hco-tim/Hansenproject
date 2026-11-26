@@ -6,7 +6,7 @@ interface StructuredDataProps {
 }
 
 export default function StructuredData({ type = "all" }: StructuredDataProps) {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://hansenprojects.com";
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.hansenprojects.id";
 
   // Business & Organization Schema
   const businessSchema = {
