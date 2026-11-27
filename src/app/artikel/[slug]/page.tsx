@@ -9,6 +9,13 @@ import { getSiteArticles } from "@/lib/getContent";
 
 type Props = { params: Promise<{ slug: string }> };
 
+export async function generateStaticParams() {
+  const articles = await getSiteArticles();
+  return articles
+    .filter((article) => article.status === "published")
+    .map((article) => ({ slug: article.slug }));
+}
+
 async function getPublishedArticle(slug: string) {
   const articles = await getSiteArticles();
   return articles.find((article) => article.slug === slug && article.status === "published");
