@@ -9,6 +9,16 @@ import { getSiteArticles } from "@/lib/getContent";
 
 type Props = { params: Promise<{ slug: string }> };
 
+export async function generateStaticParams() {
+  const articles = await getSiteArticles();
+  return articles
+    .filter((article) => article.status === "published")
+    .map((article) => ({ slug: article.slug }));
+}
+
+// Do not allow unknown/unpublished article slugs to be generated at request time.
+export const dynamicParams = false;
+
 async function getPublishedArticle(slug: string) {
   const articles = await getSiteArticles();
   return articles.find((article) => article.slug === slug && article.status === "published");
@@ -42,7 +52,7 @@ export default async function ArticlePage({ params }: Props) {
           <p className="mt-8 text-xs uppercase tracking-[0.2em] text-primary">{article.category || "Inspirasi"} · {publishedDate} · {article.author || "Hansen Projects"}</p>
           <h1 className="mt-4 font-serif text-4xl font-semibold leading-tight md:text-6xl">{article.title}</h1>
           <p className="mt-5 text-lg leading-8 text-slate-300">{article.excerpt}</p>
-          {article.coverImage && <div className="relative mt-10 aspect-[16/9] overflow-hidden bg-slate-800"><Image src={article.coverImage} alt={article.coverImageAlt?.trim() || article.title} fill priority sizes="(max-width: 896px) 100vw, 896px" className="object-cover" unoptimized={article.coverImage.startsWith("http://") || article.coverImage.startsWith("https://")} /></div>}
+          {article.coverImage && <div className="relative mt-10 aspect-[16/9] overflow-hidden bg-slate-800"><Image src={article.coverImage} alt={article.coverImageAlt?.trim() || article.title} fill priority sizes="(max-width: 896px) 100vw, 896px" className="object-cover" unoptimized /></div>}
           <div className="mx-auto mt-10 max-w-3xl"><ArticleBody body={article.body} /></div>
         </div>
       </article>

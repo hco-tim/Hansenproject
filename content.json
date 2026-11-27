@@ -22,11 +22,11 @@
       },
       {
         "label": "Kontak",
-        "url": "#kontak-kami"
+        "url": "/kontak"
       }
     ],
     "contactButtonText": "HUBUNGI KAMI",
-    "contactButtonUrl": "#kontak-kami"
+    "contactButtonUrl": "/kontak"
   },
   "home": {
     "hero": {

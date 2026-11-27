@@ -4,9 +4,11 @@ on:
   pull_request:
     branches:
       - main
+      - audit-optimization
   push:
     branches:
       - audit-optimization
+      - perf/optimize-rendering-and-images
 
 permissions:
   contents: write

@@ -93,6 +93,10 @@ export const metadata: Metadata = {
 
 import { getSiteContent } from "@/lib/getContent";
 
+// Public pages use repository content that changes only through deployments.
+// Generate them at build time instead of invoking a server function per visit.
+export const dynamic = "force-static";
+
 export default async function RootLayout({
   children,
 }: Readonly<{
@@ -103,7 +107,7 @@ export default async function RootLayout({
   return (
     <html lang="id" className={`${cormorant.variable} ${poppins.variable} h-full antialiased`}>
       <head>
-        <StructuredData type="all" />
+        <StructuredData type="business" />
       </head>
       <body className="min-h-full flex flex-col font-sans">
         <ContentProvider initialData={content}>
