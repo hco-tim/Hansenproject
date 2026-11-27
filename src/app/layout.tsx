@@ -93,6 +93,10 @@ export const metadata: Metadata = {
 
 import { getSiteContent } from "@/lib/getContent";
 
+// Public pages use repository content that changes only through deployments.
+// Generate them at build time instead of invoking a server function per visit.
+export const dynamic = "force-static";
+
 export default async function RootLayout({
   children,
 }: Readonly<{
