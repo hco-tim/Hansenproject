@@ -107,7 +107,7 @@ export default async function RootLayout({
   return (
     <html lang="id" className={`${cormorant.variable} ${poppins.variable} h-full antialiased`}>
       <head>
-        <StructuredData type="all" />
+        <StructuredData type="business" />
       </head>
       <body className="min-h-full flex flex-col font-sans">
         <ContentProvider initialData={content}>
