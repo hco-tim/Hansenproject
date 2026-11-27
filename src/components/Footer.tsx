@@ -87,7 +87,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="#kontak-kami"
+                  href="/kontak#kontak-kami"
                   className="hover:text-[#dbae6b] transition-colors"
                 >
                   Kontak
