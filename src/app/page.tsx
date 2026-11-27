@@ -12,10 +12,15 @@ import Footer from "@/components/Footer";
 import ServicesParallax from "@/components/ServicesParallax";
 import ContactSection from "@/components/ContactSection";
 import MapSection from "@/components/MapSection";
+import StructuredData from "@/components/StructuredData";
+import { getSiteContent } from "@/lib/getContent";
 
-export default function Home() {
+export default async function Home() {
+  const content = await getSiteContent();
+
   return (
     <div className="min-h-screen flex flex-col font-sans bg-background text-foreground overflow-x-hidden">
+      <StructuredData type="faq" faqItems={content.home.faq.items} />
       <Navbar />
       <Hero />
       <Services />
@@ -26,9 +31,7 @@ export default function Home() {
       <Testimonials />
       <FAQ />
       <ServicesParallax />
-      {/* Contact Section with Left Info & Right Form */}
       <ContactSection />
-      {/* Google Maps Embed Section */}
       <MapSection />
       <CTA />
       <Footer />
